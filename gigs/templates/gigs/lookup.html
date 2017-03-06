@@ -1,0 +1,22 @@
+{% extends "gigs/includes/base.html" %}
+{% block content %}
+    <form role="form" action="/" method="get">{% csrf_token %}
+        <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input type="text" name="latitude" id="id_latitude" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input type="text" name="longitude" id="id_longitude" class="form-control">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Submit" name="">
+    </form>
+    <script language="javascript" type="text/javascript">
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var lat = document.getElementById('id_latitude');
+            var lon = document.getElementById('id_longitude');
+            lat.value = position.coords.latitude;
+            lon.value = position.coords.longitude;
+        });
+    </script>
+{% endblock content %}
