@@ -1,10 +1,12 @@
 import random
 import factory.django
 from django.contrib.gis.geos import Point
-from django.test import TestCase
+from django.core.urlresolvers import reverse
+from django.test import TestCase, RequestFactory
 from django.utils import timezone
 from factory.fuzzy import BaseFuzzyAttribute
 from gigs.models import Venue, Event
+from gigs.views import LookUpView
 # Create your tests here.
 
 
@@ -53,3 +55,14 @@ class EventsTest(TestCase):
         self.assertEqual(event, all_events[0])
         self.assertIn('Mkahawa', all_events[0].name)
         self.assertEqual(all_events[0].venue.name, 'Wembley')
+
+
+class LookupViewTest(TestCase):
+    def setUp(self):
+        self.factory = RequestFactory()
+
+    def test_get(self):
+        request = self.factory.get(reverse('lookup'))
+        response = LookUpView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('gigs/lookup.html')
