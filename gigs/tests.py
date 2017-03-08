@@ -66,3 +66,34 @@ class LookupViewTest(TestCase):
         response = LookUpView.as_view()(request)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('gigs/lookup.html')
+
+    def test_post(self):
+        # sample venuew
+        v1 = Venuefactory(name='Venue1')
+        v2 = Venuefactory(name='Venue2')
+        v3 = Venuefactory(name='Venue3')
+        v4 = Venuefactory(name='Venue4')
+        v5 = Venuefactory(name='Venue5')
+
+        # sample events
+        e1 = Eventfactory(name="Event1", venue=v1)
+        e2 = Eventfactory(name="Event2", venue=v2)
+        e3 = Eventfactory(name="Event3", venue=v3)
+        e4 = Eventfactory(name="Event4", venue=v4)
+        e5 = Eventfactory(name="Event5", venue=v5)
+
+        lat = 52.3749159
+        lon = 1.1067473
+
+        self.assertEqual(len(Event.objects.all()), 5)
+        self.assertEqual(len(Venue.objects.all()), 5)
+
+        data = {
+            'latitude': lat,
+            'longitude': lon
+        }
+
+        request = self.factory.post(reverse('lookup'), data)
+        response = LookUpView.as_view()(request)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('gigs/looupresults.html')

@@ -1,15 +1,16 @@
 {% extends "gigs/includes/base.html" %}
+
 {% block content %}
-    <form role="form" action="/" method="get">{% csrf_token %}
+    <form role="form" action="/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="latitude">Latitude:</label>
-            <input type="text" name="latitude" id="id_latitude" class="form-control">
+            <input id="id_latitude" name="latitude" type="text" class="form-control"></input>
         </div>
         <div class="form-group">
             <label for="longitude">Longitude:</label>
-            <input type="text" name="longitude" id="id_longitude" class="form-control">
+            <input id="id_longitude" name="longitude" type="text" class="form-control"></input>
         </div>
-        <input class="btn btn-primary" type="submit" value="Submit" name="">
+        <input class="btn btn-primary" type="submit" value="Submit" />
     </form>
     <script language="javascript" type="text/javascript">
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -19,4 +20,4 @@
             lon.value = position.coords.longitude;
         });
     </script>
-{% endblock content %}
+{% endblock %}
